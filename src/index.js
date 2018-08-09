@@ -25,7 +25,7 @@ function calculateWinner(squares) {
 
 function Square(props) {
   return (
-    <button className="square" onClick={props.onClick}>
+    <button className="square " onClick={props.onClick}>
       {props.value}
     </button>
   );
@@ -78,6 +78,8 @@ class Game extends React.Component {
         squares: Array(9).fill(null),
       }],
       xIsNext: true,
+      x_wins: 0,
+      o_wins: 0,
     };
   }
 
@@ -121,19 +123,40 @@ class Game extends React.Component {
     const history = this.state.history;
     const current = history[history.length - 1];
 
-    const winner = calculateWinner(current.squares);
+    let winner = calculateWinner(current.squares);
 
     let status;
     if (winner) {
-      status = 'Winner: ' + winner;
+      status = 'Vencedor: ' + winner;
+      if (winner === 'X') {
+        this.setState(
+          {
+            x_wins: this.state.x_wins + 1
+          }
+        );
+      } else {
+        this.setState(
+          {
+            o_wins: this.state.o_wins + 1
+          }
+        );
+      }
+      winner = '';
     } else {
-      status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
+      status = 'Vez de ' + (this.state.xIsNext ? 'X' : 'O');
     }
 
     const st_class = (this.state.history.length <= 1 ? 'disabled': 'warning');
 
     return (
       <section className="game text-center gt-section">
+        <div className="game-info">
+          <div className="flex-box board center">
+            <div className="col border"><b>x</b> - {this.state.x_wins}</div>
+            <div className="col border"><b>O</b> - {this.state.o_wins}</div>
+          </div>
+          <div className="attemp">{status}</div>
+        </div>
         <div className="game-board">
           <Board
             squares={current.squares}
@@ -144,10 +167,6 @@ class Game extends React.Component {
           <button className={`btn ${st_class}`} onClick={(i) => this.undo(i)}>Desfazer</button>
           <button className="btn success" onClick={() => this.newGame()}>Novo Jogo</button>
         </div>
-        <div className="game-info">
-          <div>{status}</div>
-          <ol>{/* TODO */}</ol>
-        </div>
       </section>
     );
   }
@@ -157,7 +176,7 @@ class Page extends React.Component {
   render() {
     return (
       <div>
-        <header className="gt-top-menu">
+        <header className="gt-top-menu no-shadow">
         </header>
         <Game />
         <footer>
