@@ -119,6 +119,14 @@ class Game extends React.Component {
     })
   }
 
+  board(winner) {
+    if (winner === 'X') {
+      this.state.x_wins += 1;
+    } else if(winner === 'O') {
+      this.state.o_wins += 1;
+    }
+  }
+
   render() {
     const history = this.state.history;
     const current = history[history.length - 1];
@@ -128,20 +136,8 @@ class Game extends React.Component {
     let status;
     if (winner) {
       status = 'Vencedor: ' + winner;
-      if (winner === 'X') {
-        this.setState(
-          {
-            x_wins: this.state.x_wins + 1
-          }
-        );
-      } else {
-        this.setState(
-          {
-            o_wins: this.state.o_wins + 1
-          }
-        );
-      }
-      winner = '';
+      this.board(winner);
+      winner = null;
     } else {
       status = 'Vez de ' + (this.state.xIsNext ? 'X' : 'O');
     }
