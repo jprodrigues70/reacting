@@ -98,9 +98,7 @@ class Game extends React.Component {
     const squares = current.squares.slice();
     let winner = calculateWinner(squares);
 
-    if (winner || squares[i]) {
-      return;
-    }
+    if (winner || squares[i]) return;
 
     squares[i] = (this.state.xIsNext)? 'X': 'O';
 
@@ -121,8 +119,16 @@ class Game extends React.Component {
 
   undo(i) {
     let history = this.state.history;
+
     if (history.length > 1) {
-      history.pop();
+      let pop = history.pop();
+      let ps = pop.squares.slice();
+      let wn = calculateWinner(ps);
+      if (wn === 'X') {
+        this.setState({x_wins: this.state.x_wins - 1});
+      } else if (wn === 'O') {
+        this.setState({o_wins: this.state.o_wins - 1});
+      }
       this.setState({
         history: history,
         xIsNext: !this.state.xIsNext
