@@ -31,6 +31,15 @@ function Square(props) {
   );
 }
 
+function Placar(props) {
+  return (
+    <div className="flex-box board center">
+      <div className="col border"><b>x</b> - {props.x}</div>
+      <div className="col border"><b>O</b> - {props.o}</div>
+    </div>
+  );
+}
+
 class Board extends React.Component {
   constructor(props) {
     super(props);
@@ -87,10 +96,12 @@ class Game extends React.Component {
     const history = this.state.history;
     const current = history[history.length - 1];
     const squares = current.squares.slice();
+    let winner = calculateWinner(squares);
 
-    if (calculateWinner(squares) || squares[i]) {
+    if (winner || squares[i]) {
       return;
     }
+
     squares[i] = (this.state.xIsNext)? 'X': 'O';
 
     this.setState({
@@ -99,6 +110,13 @@ class Game extends React.Component {
       }]),
       xIsNext: !this.state.xIsNext
     });
+
+    winner = calculateWinner(squares);
+    if (winner === 'X') {
+      this.setState({x_wins: this.state.x_wins + 1});
+    } else if (winner === 'O') {
+      this.setState({o_wins: this.state.o_wins + 1});
+    }
   }
 
   undo(i) {
@@ -119,38 +137,27 @@ class Game extends React.Component {
     })
   }
 
-  board(winner) {
-    if (winner === 'X') {
-      this.state.x_wins += 1;
-    } else if(winner === 'O') {
-      this.state.o_wins += 1;
-    }
+  renderPlacar() {
+    return <Placar
+      x={this.state.x_wins}
+      o={this.state.o_wins}
+    />;
   }
 
   render() {
     const history = this.state.history;
     const current = history[history.length - 1];
-
     let winner = calculateWinner(current.squares);
-
     let status;
-    if (winner) {
-      status = 'Vencedor: ' + winner;
-      this.board(winner);
-      winner = null;
-    } else {
-      status = 'Vez de ' + (this.state.xIsNext ? 'X' : 'O');
-    }
 
+
+    status = (winner)? 'Vencedor: ' + winner : 'Vez de ' + (this.state.xIsNext ? 'X' : 'O');
     const st_class = (this.state.history.length <= 1 ? 'disabled': 'warning');
 
     return (
       <section className="game text-center gt-section">
         <div className="game-info">
-          <div className="flex-box board center">
-            <div className="col border"><b>x</b> - {this.state.x_wins}</div>
-            <div className="col border"><b>O</b> - {this.state.o_wins}</div>
-          </div>
+          {this.renderPlacar()}
           <div className="attemp">{status}</div>
         </div>
         <div className="game-board">
