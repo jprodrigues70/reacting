@@ -80,3 +80,81 @@ ol, ul {
 .board {
   width: 256px;
 }
+
+.tb {
+  position: relative;
+}
+
+.d1 {
+  position: absolute;
+  height: 100%;
+  padding: 1px;
+  background-color: #AAA;
+  top: 0;
+  left: 50%;
+  transform: rotate(-45deg);
+}
+
+.d2 {
+  position: absolute;
+  height: 100%;
+  padding: 1px;
+  background-color: #AAA;
+  top: 0;
+  left: 50%;
+  transform: rotate(45deg);
+}
+
+.c1 {
+  position: absolute;
+  height: 100%;
+  padding: 1px;
+  background-color: #AAA;
+  top: 0;
+  left: 17.4%;
+}
+
+.c2 {
+  position: absolute;
+  height: 100%;
+  padding: 1px;
+  background-color: #AAA;
+  top: 0;
+  left: 51.2%;
+}
+
+.c3 {
+  position: absolute;
+  height: 100%;
+  padding: 1px;
+  background-color: #AAA;
+  top: 0;
+  left: 84.5%;
+}
+
+.l1 {
+    position: absolute;
+    width: 100%;
+    padding: 1px;
+    background-color: #AAA;
+    top: 15%;
+    left: 0;
+}
+
+.l2 {
+    position: absolute;
+    width: 100%;
+    padding: 1px;
+    background-color: #AAA;
+    top: 49%;
+    left: 0;
+}
+
+.l3 {
+    position: absolute;
+    width: 100%;
+    padding: 1px;
+    background-color: #AAA;
+    top: 82%;
+    left: 0;
+}
